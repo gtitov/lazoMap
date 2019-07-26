@@ -205,12 +205,12 @@
                     }
 
                     // Photo
-                    document.getElementById("gallery").getElementsByTagName("h4")[0].style.display = "none"
+                    document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
                     document.getElementById("lightgallery").innerHTML = ''  // clear content
                     var photos = e.features[0].properties.photos
                     if(photos){
                         photos = JSON.parse(photos)
-                        document.getElementById("gallery").getElementsByTagName("h4")[0].style.display = "block"
+                        document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
                         photos.forEach(function(ph) {
                         document.getElementById("lightgallery").innerHTML += '<a href="' + ph.link + '" data-sub-html="' + ph.title + '">' +
                                                                                 '<img src="' + ph.thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
@@ -221,12 +221,12 @@
 
 
                     // Documents
-                    document.getElementById("documentation").getElementsByTagName("h4")[0].style.display = "none"
+                    document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
                     document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
                     var docs = e.features[0].properties.docs
                     if(docs){
                         docs = JSON.parse(docs)
-                        document.getElementById("documentation").getElementsByTagName("h4")[0].style.display = "block"
+                        document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
                         docs.forEach(function(doc) {
                         document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
                                                                                                       doc.title +
