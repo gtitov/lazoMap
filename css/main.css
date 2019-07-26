@@ -1,0 +1,18 @@
+.row {
+  display: flex;
+}
+
+#infobar {
+  flex: 2;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  height: 90vh;
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+#map {
+  flex: 5;
+  margin-top: 2px;
+  height: 90vh
+}

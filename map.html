@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Карта заповедника</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./css/main.css">
+
+    <!-- Load mapbox -->
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css'/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+
+    <!-- Load lightgallery -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.12/dist/css/lightgallery.min.css">
+    <script src="./js/lightgallery.min.js"></script>
+
+    
+
+
+</head>
+
+<body>
+
+    <h2>Карта Лазовского заповедника</h2>
+    <div class="row">
+        <div id='infobar'>
+            <!-- Title -->
+            <h3 id='infoTitle'>Лазовский заповедник</h3>
+
+            <!-- Information -->
+            <p id="info">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde maiores sed molestias quisquam doloremque odit ducimus dignissimos animi velit. Doloribus at magnam omnis sint et modi provident consequuntur ipsum totam.</p>
+            
+            <!-- Photos -->
+            <div id="gallery">
+                <h4>Фотографии</h4>
+                <div id="lightgallery">
+                    <a href="photos/F65.jpg" data-sub-html="qwrewt">
+                        <img src="photos/tF65.jpg" />
+                    </a>
+                    <a href="photos/66C.jpg">
+                        <img src="photos/t66C.jpg" />
+                    </a>
+                </div>
+                <!-- Initialize lightGallery -->
+                <script type="text/javascript">
+                    lightGallery(document.getElementById('lightgallery'))
+                </script>
+            </div>
+
+            <!-- Documents -->
+            <div id="documentation">
+                <h4>Документы</h4>
+                <div id="docs"></div>
+            </div>
+            
+        </div>
+
+        <!-- Map container -->
+        <div id="map"></div>
+        <!-- <div id="coordinates" style="position: absolute; top: 75px; left: 50px; font-size: 15px"></div> -->
+    </div>
+
+
+
+    <!-- Map constructor -->
+    <script>
+        // Initialize map
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ2hlcm1hbnQiLCJhIjoiY2pncDUwcnRmNDQ4ZjJ4czdjZXMzaHZpNyJ9.3rFyYRRtvLUngHm027HZ7A';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/ghermant/cjydrh8o43d8r1dnjmomx9x7b',
+            center: [134.15, 43.34],
+            zoom: 8,
+        });
+
+        
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+        map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
+
+        // Draw map
+        map.on('load', function () {
+            // Файлы с данными
+            // Add geodata as source
+
+            // Заповедник одной точкой
+            map.addSource('one', {
+                type: 'geojson',
+                data: './data/one.geojson'
+            })
+
+            // Заповедник двумя точками
+            map.addSource('two', {
+                type: 'geojson',
+                data: './data/two.geojson'
+            })
+
+            // Кордоны
+            map.addSource('kordon', {
+                type: 'geojson',
+                data: './data/kordon.geojson',
+            })
+
+            // Инфраструктура кордонов
+            map.addSource('kordon_houses', {
+                type: 'geojson',
+                data: './data/kordon_houses.geojson',
+            })
+
+            // Вершины
+            map.addSource('mountains', {
+                type: 'geojson',
+                data: './data/mountains.geojson',
+            })
+
+            // Слои
+            // Add geodata to the map as a layer 
+            // Одной точкой
+            map.addLayer({
+                id: 'one',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'one',
+                layout: {
+                    'icon-image': 'park-15',
+                    'icon-allow-overlap': true,
+                },
+                maxzoom: 4
+            });
+
+            // Двумя точками
+            map.addLayer({
+                id: 'two',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'two',
+                layout: {
+                    'icon-image': 'park-11',
+                    'icon-allow-overlap': true,
+                },
+                minzoom: 4,
+                maxzoom: 7
+            });
+
+            // Вершины
+            map.addLayer({
+                id: 'mountains',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'mountains',
+                layout: {
+                    'icon-image': 'mountain-11',
+                    'icon-allow-overlap': true,
+                },
+                minzoom: 7,
+                maxzoom: 16
+            });
+            
+            // Кордоны
+            map.addLayer({
+                id: 'kordon',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'kordon',
+                layout: {
+                    'icon-image': 'ranger-station-15',
+                    'icon-allow-overlap': true,
+                },
+                minzoom: 7,
+                maxzoom: 16
+            });
+
+
+            // Инфраструктура кордонов
+            map.addLayer({
+                id: 'kordon_houses',
+                type: 'fill',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'kordon_houses',
+                minzoom: 14
+            });
+
+            // Всплывающие окна
+            // Слои
+            var layers = ['one', 'two', 'kordon', 'kordon_houses', 'mountains']
+            layers.forEach(function(lr){
+                // Информация о слое
+                map.on('click', lr, function (e) {
+
+                    // Show info in sidebar
+                    
+                    // Title
+                    document.getElementById("infoTitle").innerHTML = ''  // clear content
+                    var name = e.features[0].properties.name
+                    document.getElementById("infoTitle").innerHTML = name
+
+                    // Information
+                    document.getElementById("info").innerHTML = ''  // clear content
+                    var descr = e.features[0].properties.description
+                    if(descr){
+                        document.getElementById("info").innerHTML = descr
+                    }
+
+                    // Photo
+                    document.getElementById("gallery").getElementsByTagName("h4")[0].style.display = "none"
+                    document.getElementById("lightgallery").innerHTML = ''  // clear content
+                    var photos = e.features[0].properties.photos
+                    if(photos){
+                        photos = JSON.parse(photos)
+                        document.getElementById("gallery").getElementsByTagName("h4")[0].style.display = "block"
+                        photos.forEach(function(ph) {
+                        document.getElementById("lightgallery").innerHTML += '<a href="' + ph.link + '" data-sub-html="' + ph.title + '">' +
+                                                                                '<img src="' + ph.thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                                                                             '</a>'
+                        })
+                        lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
+                    }
+
+
+                    // Documents
+                    document.getElementById("documentation").getElementsByTagName("h4")[0].style.display = "none"
+                    document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
+                    var docs = e.features[0].properties.docs
+                    if(docs){
+                        docs = JSON.parse(docs)
+                        document.getElementById("documentation").getElementsByTagName("h4")[0].style.display = "block"
+                        docs.forEach(function(doc) {
+                        document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                                                                                                      doc.title +
+                                                                                                   '</a></li>'
+                        })
+                    }
+
+
+                    // Popup
+                    // When a click event occurs on a feature in the places layer, open a popup at the location of the feature, with description HTML from its properties. 
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    name = '<div style="max-width: 300px">' +
+                                name +
+                           '</div>';              
+
+                    // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(name)
+                        .addTo(map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
+                map.on('mouseenter', lr, function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                map.on('mouseleave', lr, function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+            });
+
+        });
+
+
+
+        // // Get coordinates of the mouse pointer - just uncomment
+        // // Comment in production
+        // map.on('mousemove', function (event) {
+        //     // event.lngLat is the longitude, latitude geographical position of the event
+        //     var lon = event.lngLat.lng.toFixed(3);
+        //     var lat = event.lngLat.lat.toFixed(3);
+        //     document.getElementById('coordinates').innerHTML = lon + "<br>" + lat;
+        // });
+    </script>
+</body>
+
+</html>

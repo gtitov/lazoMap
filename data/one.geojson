@@ -1,0 +1,20 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Лазовский заповедник и национальный парк \"Зов тигра\"",
+        "description": ""
+      },
+      "geometry": {
+        "coordinates": [
+          133.907109,
+          43.383803
+        ],
+        "type": "Point"
+      },
+      "id": "3626c1fcba4ea454768216eae05abe5a"
+    }
+  ],
+  "type": "FeatureCollection"
+}
