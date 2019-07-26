@@ -19,7 +19,6 @@ p, a {
 #infobar {
   flex: 2;
   top: 0;
-  right: 0;
   overflow: auto;
   height: 90vh;
 }
