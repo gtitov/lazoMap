@@ -2,6 +2,14 @@ body {
   font-family: Arial, Helvetica, sans-serif
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+p, a {
+  font-family: 'Roboto', sans-serif;
+}
+
 .row {
   display: flex;
 }
@@ -12,7 +20,6 @@ body {
   left: 0;
   overflow: auto;
   height: 90vh;
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 #map {
