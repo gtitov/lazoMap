@@ -208,7 +208,7 @@
                     document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
                     document.getElementById("lightgallery").innerHTML = ''  // clear content
                     var photos = e.features[0].properties.photos
-                    console.log(photos)
+                    photos = JSON.parse(photos)
                     if(photos){
                         photos = JSON.parse(photos)
                         console.log(photos)
