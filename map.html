@@ -201,9 +201,10 @@
                     document.getElementById("info").innerHTML = ''  // clear content
                     var descr = e.features[0].properties.description
                     console.log(descr)
-                    if(descr & descr != 'null'){
-                        document.getElementById("info").innerHTML = descr
-                        console.log(descr)
+                    if(descr){
+                        if(descr != 'null'){
+                            document.getElementById("info").innerHTML = descr
+                        }
                     }
 
                     // Photo
