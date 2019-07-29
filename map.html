@@ -210,11 +210,12 @@
                     var photos = e.features[0].properties.photos
                     if(photos){
                         photos = JSON.parse(photos)
+                        console.log(photos)
                         document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
                         photos.forEach(function(ph) {
                         // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
                         link = './photos/' + ph.link  // photos are stored in './photos/' folder
-                        thimb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                        thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
                         document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
                                                                                 '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
                                                                              '</a>'
