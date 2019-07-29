@@ -209,7 +209,7 @@
                     document.getElementById("lightgallery").innerHTML = ''  // clear content
                     var photos = e.features[0].properties.photos
                     photos = JSON.parse(photos)
-                    if(photos){
+                    if(photos & photos != 'null'){
                         photos = JSON.parse(photos)
                         console.log(photos)
                         document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
