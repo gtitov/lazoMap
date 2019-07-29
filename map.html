@@ -200,7 +200,7 @@
                     // Information
                     document.getElementById("info").innerHTML = ''  // clear content
                     var descr = e.features[0].properties.description
-                    if(descr){
+                    if(descr & descr != 'null'){
                         document.getElementById("info").innerHTML = descr
                     }
 
