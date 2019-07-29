@@ -200,8 +200,10 @@
                     // Information
                     document.getElementById("info").innerHTML = ''  // clear content
                     var descr = e.features[0].properties.description
+                    console.log(descr)
                     if(descr){
                         document.getElementById("info").innerHTML = descr
+                        console.log(descr)
                     }
 
                     // Photo
