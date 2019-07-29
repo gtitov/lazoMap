@@ -208,10 +208,8 @@
                     document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
                     document.getElementById("lightgallery").innerHTML = ''  // clear content
                     var photos = e.features[0].properties.photos
-                    photos = JSON.parse(photos)
-                    if(photos & photos != 'null'){
+                    if(photos & photos != 'null'){  // check if null is a string
                         photos = JSON.parse(photos)
-                        console.log(photos)
                         document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
                         photos.forEach(function(ph) {
                         // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
@@ -229,7 +227,7 @@
                     document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
                     document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
                     var docs = e.features[0].properties.docs
-                    if(docs){
+                    if(docs & docs != 'null'){
                         docs = JSON.parse(docs)
                         document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
                         docs.forEach(function(doc) {
