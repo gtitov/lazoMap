@@ -212,8 +212,11 @@
                         photos = JSON.parse(photos)
                         document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
                         photos.forEach(function(ph) {
-                        document.getElementById("lightgallery").innerHTML += '<a href="' + ph.link + '" data-sub-html="' + ph.title + '">' +
-                                                                                '<img src="' + ph.thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                        // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                        link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                        thimb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                        document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                                                                                '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
                                                                              '</a>'
                         })
                         lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
