@@ -1,8 +1,35 @@
 {
-"type": "FeatureCollection",
-"name": "kontora",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 133.898256131210161, 43.381025407990045 ] } }
-]
+    "type": "FeatureCollection",
+    "name": "kontora",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 0.0,
+                "name": "Объединенная дирекция Лазовского заповедника и национального парка «Зов тигра»",
+                "description": "<p><span>Лазовский заповедник расположен на территории одноименного района в юго-восточной части Приморского края, на склонах хребта Сихотэ-Алинь, обращенных к Японскому морю.<\/span><\/p>\n<p><span>В центральном офисе можно оформить экскурсии, забронировать места отдыха. Подробности можно получить на (странице заповедника)[<\/span><a href='http:\/\/lazovzap.ru\/contacts\/' target='_blank' class='url'>http:\/\/lazovzap.ru\/contacts\/<\/a><span>].<\/span><\/p>",
+                "photos": [
+                    {
+                        "title": "Туристическая карта Лазовского заповедника и окрестностей",
+                        "link": "map.jpg"
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.898256131210161,
+                        43.381025407990045
+                    ]
+                ]
+            }
+        }
+    ]
 }
