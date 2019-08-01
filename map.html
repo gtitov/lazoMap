@@ -104,10 +104,10 @@
                 data: './data/kordon.geojson',
             })
 
-            // Инфраструктура кордонов
-            map.addSource('kordon_houses', {
+            // Контора
+            map.addSource('kontora', {
                 type: 'geojson',
-                data: './data/kordon_houses.geojson',
+                data: './data/kontora.geojson',
             })
 
             // Вершины
@@ -158,6 +158,20 @@
                 minzoom: 7,
                 maxzoom: 16
             });
+
+            // Контора
+            map.addLayer({
+                id: 'kontora',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'kontora',
+                layout: {
+                    'icon-image': 'town-hall-15',
+                    'icon-allow-overlap': true,
+                },
+                minzoom: 7,
+                maxzoom: 16
+            });
             
             // Кордоны
             map.addLayer({
@@ -171,16 +185,6 @@
                 },
                 minzoom: 7,
                 maxzoom: 16
-            });
-
-
-            // Инфраструктура кордонов
-            map.addLayer({
-                id: 'kordon_houses',
-                type: 'fill',
-                // Add a GeoJSON source containing place coordinates and information.
-                source: 'kordon_houses',
-                minzoom: 14
             });
 
             // Всплывающие окна
