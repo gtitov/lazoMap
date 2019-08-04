@@ -116,6 +116,12 @@
                 data: './data/mountains.geojson',
             })
 
+            // Реки
+            map.addSource('rivers', {
+                type: 'geojson',
+                data: './data/rivers.geojson',
+            })
+
             // Слои
             // Add geodata to the map as a layer 
             // Одной точкой
@@ -155,8 +161,7 @@
                     'icon-image': 'mountain-11',
                     'icon-allow-overlap': true,
                 },
-                minzoom: 7,
-                maxzoom: 16
+                minzoom: 7
             });
 
             // Контора
@@ -169,8 +174,7 @@
                     'icon-image': 'town-hall-15',
                     'icon-allow-overlap': true,
                 },
-                minzoom: 7,
-                maxzoom: 16
+                minzoom: 7
             });
             
             // Кордоны
@@ -183,8 +187,24 @@
                     'icon-image': 'ranger-station-15',
                     'icon-allow-overlap': true,
                 },
-                minzoom: 7,
-                maxzoom: 16
+                minzoom: 7
+            });
+
+            // Реки
+            map.addLayer({
+                id: 'rivers',
+                type: 'symbol',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'rivers',
+                layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                paint: {
+                    "line-color": "#03dffc",
+                    "line-width": 8
+                },
+                minzoom: 7
             });
 
             // Всплывающие окна
