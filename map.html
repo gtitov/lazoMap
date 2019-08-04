@@ -193,7 +193,7 @@
             // Реки
             map.addLayer({
                 id: 'rivers',
-                type: 'symbol',
+                type: 'line',
                 // Add a GeoJSON source containing place coordinates and information.
                 source: 'rivers',
                 layout: {
@@ -209,7 +209,7 @@
 
             // Всплывающие окна
             // Слои
-            var layers = ['one', 'two', 'kordon', 'kontora', 'mountains']
+            var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
             layers.forEach(function(lr){
                 // Информация о слое
                 map.on('click', lr, function (e) {
