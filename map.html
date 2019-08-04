@@ -151,6 +151,23 @@
                 maxzoom: 7
             });
 
+            // Реки
+            map.addLayer({
+                id: 'rivers',
+                type: 'line',
+                // Add a GeoJSON source containing place coordinates and information.
+                source: 'rivers',
+                layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                paint: {
+                    "line-color": "#03dffc",
+                    "line-width": 0.5
+                },
+                minzoom: 7
+            });
+
             // Вершины
             map.addLayer({
                 id: 'mountains',
@@ -186,23 +203,6 @@
                 layout: {
                     'icon-image': 'ranger-station-15',
                     'icon-allow-overlap': true,
-                },
-                minzoom: 7
-            });
-
-            // Реки
-            map.addLayer({
-                id: 'rivers',
-                type: 'line',
-                // Add a GeoJSON source containing place coordinates and information.
-                source: 'rivers',
-                layout: {
-                    "line-join": "round",
-                    "line-cap": "round"
-                },
-                paint: {
-                    "line-color": "#03dffc",
-                    "line-width": 2
                 },
                 minzoom: 7
             });
