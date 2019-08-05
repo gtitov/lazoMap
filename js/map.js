@@ -1,0 +1,238 @@
+// Initialize map
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ2hlcm1hbnQiLCJhIjoiY2pncDUwcnRmNDQ4ZjJ4czdjZXMzaHZpNyJ9.3rFyYRRtvLUngHm027HZ7A';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/ghermant/cjydrh8o43d8r1dnjmomx9x7b',
+    center: [134.15, 43.34],
+    zoom: 8,
+});
+
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
+
+// Draw map
+map.on('load', function () {
+    // Файлы с данными
+    // Add geodata as source
+
+    // Заповедник одной точкой
+    map.addSource('one', {
+        type: 'geojson',
+        data: './data/one.geojson'
+    })
+
+    // Заповедник двумя точками
+    map.addSource('two', {
+        type: 'geojson',
+        data: './data/two.geojson'
+    })
+
+    // Кордоны
+    map.addSource('kordon', {
+        type: 'geojson',
+        data: './data/kordon.geojson',
+    })
+
+    // Контора
+    map.addSource('kontora', {
+        type: 'geojson',
+        data: './data/kontora.geojson',
+    })
+
+    // Вершины
+    map.addSource('mountains', {
+        type: 'geojson',
+        data: './data/mountains.geojson',
+    })
+
+    // Реки
+    map.addSource('rivers', {
+        type: 'geojson',
+        data: './data/rivers.geojson',
+    })
+
+    // Слои
+    // Add geodata to the map as a layer 
+    // Одной точкой
+    map.addLayer({
+        id: 'one',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'one',
+        layout: {
+            'icon-image': 'park-15',
+            'icon-allow-overlap': true,
+        },
+        maxzoom: 4
+    });
+
+    // Двумя точками
+    map.addLayer({
+        id: 'two',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'two',
+        layout: {
+            'icon-image': 'park-11',
+            'icon-allow-overlap': true,
+        },
+        minzoom: 4,
+        maxzoom: 7
+    });
+
+    // Реки
+    map.addLayer({
+        id: 'rivers',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'rivers',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#03dffc",
+            "line-width": 4,
+            "line-opacity": 0.3
+        },
+        minzoom: 7
+    });
+
+    // Вершины
+    map.addLayer({
+        id: 'mountains',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'mountains',
+        layout: {
+            'icon-image': 'mountain-11',
+            'icon-allow-overlap': true,
+        },
+        minzoom: 7
+    });
+
+    // Контора
+    map.addLayer({
+        id: 'kontora',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'kontora',
+        layout: {
+            'icon-image': 'town-hall-15',
+            'icon-allow-overlap': true,
+        },
+        minzoom: 7
+    });
+    
+    // Кордоны
+    map.addLayer({
+        id: 'kordon',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'kordon',
+        layout: {
+            'icon-image': 'ranger-station-15',
+            'icon-allow-overlap': true,
+        },
+        minzoom: 7
+    });
+
+    // Всплывающие окна
+    // Слои
+    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
+    layers.forEach(function(lr){
+        // Информация о слое
+        map.on('click', lr, function (e) {
+
+            // Show info in sidebar
+            
+            // Title
+            document.getElementById("infoTitle").innerHTML = ''  // clear content
+            var name = e.features[0].properties.name
+            document.getElementById("infoTitle").innerHTML = name
+
+            // Information
+            document.getElementById("info").innerHTML = ''  // clear content
+            var descr = e.features[0].properties.description
+            console.log(descr)
+            if(descr && descr != 'null'){  // check if null is a string 'null'
+                document.getElementById("info").innerHTML = descr
+            }
+
+            // Photo
+            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
+            document.getElementById("lightgallery").innerHTML = ''  // clear content
+            var photos = e.features[0].properties.photos
+            if(photos && photos != 'null'){  // check if null is a string 'null'
+                photos = JSON.parse(photos)
+                document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
+                photos.forEach(function(ph) {
+                // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                                                                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                                                                        '</a>'
+                })
+                lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
+            }
+
+
+            // Documents
+            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
+            document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
+            var docs = e.features[0].properties.docs
+            if(docs && docs != 'null'){
+                docs = JSON.parse(docs)
+                document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
+                docs.forEach(function(doc) {
+                document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                                                                                                doc.title +
+                                                                                            '</a></li>'
+                })
+            }
+
+
+            // // Popup
+            // // When a click event occurs on a feature in the places layer, open a popup at the location of the feature, with description HTML from its properties. 
+            // var coordinates = e.features[0].geometry.coordinates.slice();
+            // name = '<div style="max-width: 300px">' +
+            //             name +
+            //        '</div>';              
+
+            // // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
+            // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            // }
+
+            // new mapboxgl.Popup()
+            //     .setLngLat(coordinates)
+            //     .setHTML(name)
+            //     .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
+        map.on('mouseenter', lr, function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        map.on('mouseleave', lr, function () {
+            map.getCanvas().style.cursor = '';
+        });
+
+    });
+
+});
+
+
+
+// // Get coordinates of the mouse pointer - just uncomment
+// // Comment in production
+// map.on('mousemove', function (event) {
+//     // event.lngLat is the longitude, latitude geographical position of the event
+//     var lon = event.lngLat.lng.toFixed(3);
+//     var lat = event.lngLat.lat.toFixed(3);
+//     document.getElementById('coordinates').innerHTML = lon + "<br>" + lat;
+// });
