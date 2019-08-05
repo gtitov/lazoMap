@@ -146,7 +146,7 @@ map.on('load', function () {
             'icon-allow-overlap': true,
         },
         minzoom: 7
-    });
+    }, 'settlement-label');
 
     // Кордоны
     map.addLayer({
@@ -250,9 +250,9 @@ map.on('load', function () {
 
     // Подсветка выбранной реки
     // Highlight rivers
-    map.on('click', 'rivers', function (e) {
+    map.on('click', function (e) {  // if layer's chosen highlight won't disappear when click ex
         // set bbox as 5px reactangle area around clicked point
-        var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
+        var bbox = [[e.point.x - 3, e.point.y - 3], [e.point.x + 3, e.point.y + 3]];
         // select features from layer 'rivers' inside bbox
         var features = map.queryRenderedFeatures(bbox, { layers: ['rivers'] });
         // Run through the selected features and set a filter
