@@ -124,7 +124,7 @@ map.on('load', function () {
             'icon-allow-overlap': true,
         },
         minzoom: 7
-    }, 'settlement-label');
+    });
     
     // Кордоны
     map.addLayer({
