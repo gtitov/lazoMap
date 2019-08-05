@@ -98,7 +98,7 @@ map.on('load', function () {
             "line-opacity": 0.3
         },
         minzoom: 7
-    });
+    }, 'settlement-label');
 
     // Вершины
     map.addLayer({
@@ -124,7 +124,7 @@ map.on('load', function () {
             'icon-allow-overlap': true,
         },
         minzoom: 7
-    });
+    }, 'settlement-label');
     
     // Кордоны
     map.addLayer({
