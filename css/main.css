@@ -14,6 +14,8 @@ p, a {
 
 .row {
   display: flex;
+  border-top: 1px solid #aaaaaa;
+  border-bottom: 5px solid #aaaaaa;
 }
 
 #infobar {
@@ -22,6 +24,7 @@ p, a {
   left: 0;
   overflow: auto;
   height: 90vh;
+  border-right: 1px solid #aaaaaa;
 }
 
 #map {
