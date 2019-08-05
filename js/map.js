@@ -12,6 +12,7 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
 
+
 // Draw map
 map.on('load', function () {
     // Файлы с данными
@@ -52,6 +53,7 @@ map.on('load', function () {
         type: 'geojson',
         data: './data/rivers.geojson',
     })
+
 
     // Слои
     // Add geodata to the map as a layer 
@@ -100,6 +102,26 @@ map.on('load', function () {
         minzoom: 7
     }, 'settlement-label');
 
+    // Реки, подсветка при выборе
+    map.addLayer({
+        id: 'rivers-highlighted',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'rivers',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#03dffc",
+            "line-width": 5,
+            "line-opacity": 1
+        },
+        // none can be selected by the filter, we'll set it later in 'Highlight rivers'
+        filter: ["in", "id", ""], 
+        minzoom: 7
+    }, 'settlement-label');
+
     // Вершины
     map.addLayer({
         id: 'mountains',
@@ -125,7 +147,7 @@ map.on('load', function () {
         },
         minzoom: 7
     });
-    
+
     // Кордоны
     map.addLayer({
         id: 'kordon',
@@ -139,15 +161,16 @@ map.on('load', function () {
         minzoom: 7
     });
 
+
     // Всплывающие окна
     // Слои
     var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
-    layers.forEach(function(lr){
+    layers.forEach(function (lr) {
         // Информация о слое
         map.on('click', lr, function (e) {
 
             // Show info in sidebar
-            
+
             // Title
             document.getElementById("infoTitle").innerHTML = ''  // clear content
             var name = e.features[0].properties.name
@@ -157,7 +180,7 @@ map.on('load', function () {
             document.getElementById("info").innerHTML = ''  // clear content
             var descr = e.features[0].properties.description
             console.log(descr)
-            if(descr && descr != 'null'){  // check if null is a string 'null'
+            if (descr && descr != 'null') {  // check if null is a string 'null'
                 document.getElementById("info").innerHTML = descr
             }
 
@@ -165,16 +188,16 @@ map.on('load', function () {
             document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
             document.getElementById("lightgallery").innerHTML = ''  // clear content
             var photos = e.features[0].properties.photos
-            if(photos && photos != 'null'){  // check if null is a string 'null'
+            if (photos && photos != 'null') {  // check if null is a string 'null'
                 photos = JSON.parse(photos)
                 document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
-                photos.forEach(function(ph) {
-                // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
-                link = './photos/' + ph.link  // photos are stored in './photos/' folder
-                thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
-                document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
-                                                                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
-                                                                        '</a>'
+                photos.forEach(function (ph) {
+                    // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                    link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                    thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                    document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                        '</a>'
                 })
                 lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
             }
@@ -184,13 +207,13 @@ map.on('load', function () {
             document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
             document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
             var docs = e.features[0].properties.docs
-            if(docs && docs != 'null'){
+            if (docs && docs != 'null') {
                 docs = JSON.parse(docs)
                 document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
-                docs.forEach(function(doc) {
-                document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
-                                                                                                doc.title +
-                                                                                            '</a></li>'
+                docs.forEach(function (doc) {
+                    document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                        doc.title +
+                        '</a></li>'
                 })
             }
 
@@ -213,6 +236,7 @@ map.on('load', function () {
             //     .addTo(map);
         });
 
+
         // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
         map.on('mouseenter', lr, function () {
             map.getCanvas().style.cursor = 'pointer';
@@ -221,7 +245,25 @@ map.on('load', function () {
         map.on('mouseleave', lr, function () {
             map.getCanvas().style.cursor = '';
         });
+    });
 
+
+    // Подсветка выбранной реки
+    // Highlight rivers
+    map.on('click', 'rivers', function (e) {
+        // set bbox as 5px reactangle area around clicked point
+        var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
+        // select features from layer 'rivers' inside bbox
+        var features = map.queryRenderedFeatures(bbox, { layers: ['rivers'] });
+        // Run through the selected features and set a filter
+        // to match features with unique FIPS codes to activate
+        // the `counties-highlighted` layer.
+        var filter = features.reduce(function (acc, feature) {
+            acc.push(feature.properties.id);
+            return acc;
+        }, ['in', 'id']);  // initial data (for first iteration): acc on iter=1
+
+        map.setFilter("rivers-highlighted", filter);
     });
 
 });
