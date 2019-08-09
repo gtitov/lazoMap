@@ -217,11 +217,9 @@ map.on('load', function () {
 
     // Слои
     var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
-
     layers.forEach(function (lr) {
         // Информация о слое
         map.on('click', lr, showInfo);
-
 
         // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
         map.on('mouseenter', lr, function () {
