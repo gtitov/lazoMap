@@ -97,7 +97,7 @@ map.on('load', function () {
         paint: {
             "line-color": "#03dffc",
             "line-width": 4,
-            "line-opacity": 0.3
+            "line-opacity": 0.4
         },
         minzoom: 7
     }, 'settlement-label');
@@ -162,79 +162,64 @@ map.on('load', function () {
     });
 
 
+
     // Всплывающие окна
     // Слои
     var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
+    // Функция вывода информации о слое
+    function showInfo(e) {
+        // Show info in sidebar
+
+        // Title
+        document.getElementById("infoTitle").innerHTML = ''  // clear content
+        var name = e.features[0].properties.name
+        document.getElementById("infoTitle").innerHTML = name
+
+        // Information
+        document.getElementById("info").innerHTML = ''  // clear content
+        var descr = e.features[0].properties.description
+        console.log(descr)
+        if (descr && descr != 'null') {  // check if null is a string 'null'
+            document.getElementById("info").innerHTML = descr
+        }
+
+        // Photo
+        document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
+        document.getElementById("lightgallery").innerHTML = ''  // clear content
+        var photos = e.features[0].properties.photos
+        if (photos && photos != 'null') {  // check if null is a string 'null'
+            photos = JSON.parse(photos)
+            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
+            photos.forEach(function (ph) {
+                // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                    '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                    '</a>'
+            })
+            lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
+        }
+
+
+        // Documents
+        document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
+        document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
+        var docs = e.features[0].properties.docs
+        if (docs && docs != 'null') {
+            docs = JSON.parse(docs)
+            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
+            docs.forEach(function (doc) {
+                document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                    doc.title +
+                    '</a></li>'
+            })
+        }
+    }
+
     layers.forEach(function (lr) {
         // Информация о слое
-        map.on('click', lr, function (e) {
-
-            // Show info in sidebar
-
-            // Title
-            document.getElementById("infoTitle").innerHTML = ''  // clear content
-            var name = e.features[0].properties.name
-            document.getElementById("infoTitle").innerHTML = name
-
-            // Information
-            document.getElementById("info").innerHTML = ''  // clear content
-            var descr = e.features[0].properties.description
-            console.log(descr)
-            if (descr && descr != 'null') {  // check if null is a string 'null'
-                document.getElementById("info").innerHTML = descr
-            }
-
-            // Photo
-            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
-            document.getElementById("lightgallery").innerHTML = ''  // clear content
-            var photos = e.features[0].properties.photos
-            if (photos && photos != 'null') {  // check if null is a string 'null'
-                photos = JSON.parse(photos)
-                document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
-                photos.forEach(function (ph) {
-                    // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
-                    link = './photos/' + ph.link  // photos are stored in './photos/' folder
-                    thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
-                    document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
-                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
-                        '</a>'
-                })
-                lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
-            }
-
-
-            // Documents
-            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
-            document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
-            var docs = e.features[0].properties.docs
-            if (docs && docs != 'null') {
-                docs = JSON.parse(docs)
-                document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
-                docs.forEach(function (doc) {
-                    document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
-                        doc.title +
-                        '</a></li>'
-                })
-            }
-
-
-            // // Popup
-            // // When a click event occurs on a feature in the places layer, open a popup at the location of the feature, with description HTML from its properties. 
-            // var coordinates = e.features[0].geometry.coordinates.slice();
-            // name = '<div style="max-width: 300px">' +
-            //             name +
-            //        '</div>';              
-
-            // // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
-            // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            // }
-
-            // new mapboxgl.Popup()
-            //     .setLngLat(coordinates)
-            //     .setHTML(name)
-            //     .addTo(map);
-        });
+        map.on('click', lr, showInfo(e));
 
 
         // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
