@@ -54,6 +54,12 @@ map.on('load', function () {
         data: './data/rivers.geojson',
     })
 
+    // Дороги
+    map.addSource('roads', {
+        type: 'geojson',
+        data: './data/roads.geojson',
+    })
+
 
     // Слои
     // Add geodata to the map as a layer 
@@ -122,6 +128,24 @@ map.on('load', function () {
         minzoom: 7
     }, 'settlement-label');
 
+    // Дороги
+    map.addLayer({
+        id: 'roads',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'roads',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#ff9999",
+            "line-width": 4,
+            "line-opacity": 1
+        },
+        minzoom: 7
+    }, 'settlement-label');
+
     // Вершины
     map.addLayer({
         id: 'mountains',
@@ -167,7 +191,7 @@ map.on('load', function () {
     // Функция вывода информации о слое
 
     // Слои
-    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
+    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads']
     layers.forEach(function (lr) {
         var clearContent = function(divName) {  // clear content using DOM
             var div = document.getElementById(divName);
