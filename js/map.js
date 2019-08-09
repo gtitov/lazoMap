@@ -174,10 +174,7 @@ map.on('load', function () {
         document.getElementById("infoTitle").innerHTML = name
 
         // Information
-        var info = getElementById("info")
-        while (info.firstChild) {  // clear content
-            info.removeChild(info.firstChild);
-        }  
+        document.getElementById("info").innerHTML = ''  // clear content
         var descr = e.features[0].properties.description
         if (descr && descr != 'null') {  // check if null is a string 'null'
             document.getElementById("info").innerHTML = descr
