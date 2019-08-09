@@ -139,10 +139,48 @@ map.on('load', function () {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "#ff9999",
-            "line-width": 4,
-            "line-opacity": 1
+            "line-color": [
+                'match',
+                ['get', 'name'],
+                'дорога на Просёлочный', '#fbb03b',
+                'дорога на Звёздочку', '#223b53',
+                'дорога на Америку', '#e55e5e',
+                'дорога на Корпадь', '#3bb2d0',
+                'дорога на Петров', '#ff9999',
+                /* others */ '#ccc'
+            ],
+            "line-width": 3,
+            "line-opacity": 0.8
         },
+        minzoom: 7
+    }, 'settlement-label');
+
+    // Дороги, подсветка при выборе
+    map.addLayer({
+        id: 'roads-highlighted',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'roads',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": [
+                'match',
+                ['get', 'name'],
+                'дорога на Просёлочный', '#fbb03b',
+                'дорога на Звёздочку', '#223b53',
+                'дорога на Америку', '#e55e5e',
+                'дорога на Корпадь', '#3bb2d0',
+                'дорога на Петров', '#ff9999',
+                /* others */ '#ccc'
+            ],
+            "line-width": 4,
+            "line-opacity": 0.9
+        },
+        // none can be selected by the filter, we'll set it later in 'Highlight rivers'
+        filter: ["in", "id", ""],
         minzoom: 7
     }, 'settlement-label');
 
@@ -260,22 +298,26 @@ map.on('load', function () {
 
 
     // Подсветка выбранной реки
+    var hlayers = ['rivers', 'roads']
     // Highlight rivers
-    map.on('click', function (e) {  // if layer's chosen highlight won't disappear when click ex
-        // set bbox as 5px reactangle area around clicked point
+    hlayers.forEach(function(hlr) {
+        map.on('click', function (e) {  // if layer's chosen highlight won't disappear when click ex
+        // set bbox as 1px reactangle area around clicked point
         var bbox = [[e.point.x - 1, e.point.y - 1], [e.point.x + 1, e.point.y + 1]];
-        // select features from layer 'rivers' inside bbox
-        var features = map.queryRenderedFeatures(bbox, { layers: ['rivers'] });
+        // select features from layer hlr inside bbox
+        var features = map.queryRenderedFeatures(bbox, { layers: [hlr] });
         // Run through the selected features and set a filter
-        // to match features with unique FIPS codes to activate
-        // the `counties-highlighted` layer.
+        // to match features with unique id to activate
+        // the hlr`-highlighted` layer.
         var filter = features.reduce(function (acc, feature) {
             acc.push(feature.properties.id);
             return acc;
         }, ['in', 'id']);  // initial data (for first iteration): acc on iter=1
 
-        map.setFilter("rivers-highlighted", filter);
-    });
+        map.setFilter(hlr.concat('-highlighted'), filter);
+        });
+    })
+
 
 
     // // Управление слоями
