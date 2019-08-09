@@ -24,7 +24,7 @@ p, a {
   left: 0;
   overflow: auto;
   height: 90vh;
-  border-right: 5px solid #aaaaaa;
+  border-right: 3px solid #aaaaaa;
 }
 
 #map {
