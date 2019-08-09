@@ -176,7 +176,6 @@ map.on('load', function () {
         // Information
         document.getElementById("info").innerHTML = ''  // clear content
         var descr = e.features[0].properties.description
-        console.log(descr)
         if (descr && descr != 'null') {  // check if null is a string 'null'
             document.getElementById("info").innerHTML = descr
         }
