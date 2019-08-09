@@ -169,7 +169,7 @@ map.on('load', function () {
     // Слои
     var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
     layers.forEach(function (lr) {
-        var clearContent = function(divName) {
+        var clearContent = function(divName) {  // clear content using DOM
             var div = document.getElementById(divName);
             while(div.firstChild){
                 div.removeChild(div.firstChild);
@@ -178,7 +178,7 @@ map.on('load', function () {
         // Информация о слое
         map.on('click', lr, function (e) {
             // Title
-            document.getElementById("infoTitle").innerHTML = ''  // clear content
+            clearContent("infoTitle")
             var name = e.features[0].properties.name
             document.getElementById("infoTitle").innerHTML = name
 
@@ -191,7 +191,7 @@ map.on('load', function () {
 
             // Photo
             document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
-            document.getElementById("lightgallery").innerHTML = ''  // clear content
+            clearContent("lightgallery")
             var photos = e.features[0].properties.photos
             if (photos && photos != 'null') {  // check if null is a string 'null'
                 photos = JSON.parse(photos)
@@ -210,7 +210,8 @@ map.on('load', function () {
 
             // Documents
             document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
-            document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
+            clearContent("docs")
+            document.getElementById("docs").appendChild(document.createElement("ol"))  // create ol using DOM 
             var docs = e.features[0].properties.docs
             if (docs && docs != 'null') {
                 docs = JSON.parse(docs)
