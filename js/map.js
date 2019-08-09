@@ -118,7 +118,7 @@ map.on('load', function () {
             "line-opacity": 1
         },
         // none can be selected by the filter, we'll set it later in 'Highlight rivers'
-        filter: ["in", "id", ""], 
+        filter: ["in", "id", ""],
         minzoom: 7
     }, 'settlement-label');
 
@@ -165,60 +165,63 @@ map.on('load', function () {
 
     // Всплывающие окна
     // Функция вывода информации о слое
-    var showInfo = function(e) {
-        // Show info in sidebar
-
-        // Title
-        document.getElementById("infoTitle").innerHTML = ''  // clear content
-        var name = e.features[0].properties.name
-        document.getElementById("infoTitle").innerHTML = name
-
-        // Information
-        document.getElementById("info").innerHTML = ''  // clear content
-        var descr = e.features[0].properties.description
-        if (descr && descr != 'null') {  // check if null is a string 'null'
-            document.getElementById("info").innerHTML = descr
-        }
-
-        // Photo
-        document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
-        document.getElementById("lightgallery").innerHTML = ''  // clear content
-        var photos = e.features[0].properties.photos
-        if (photos && photos != 'null') {  // check if null is a string 'null'
-            photos = JSON.parse(photos)
-            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
-            photos.forEach(function (ph) {
-                // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
-                link = './photos/' + ph.link  // photos are stored in './photos/' folder
-                thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
-                document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
-                    '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
-                    '</a>'
-            })
-            lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
-        }
-
-
-        // Documents
-        document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
-        document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
-        var docs = e.features[0].properties.docs
-        if (docs && docs != 'null') {
-            docs = JSON.parse(docs)
-            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
-            docs.forEach(function (doc) {
-                document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
-                    doc.title +
-                    '</a></li>'
-            })
-        }
-    }
 
     // Слои
     var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers']
     layers.forEach(function (lr) {
+        var clearContent = function(divName) {
+            var div = document.getElementById(divName);
+            while(div.firstChild){
+                div.removeChild(div.firstChild);
+            }
+        }
         // Информация о слое
-        map.on('click', lr, showInfo);
+        map.on('click', lr, function (e) {
+            // Title
+            document.getElementById("infoTitle").innerHTML = ''  // clear content
+            var name = e.features[0].properties.name
+            document.getElementById("infoTitle").innerHTML = name
+
+            // Information
+            clearContent("info")  // clear content
+            var descr = e.features[0].properties.description
+            if (descr && descr != 'null') {  // check if null is a string 'null'
+                document.getElementById("info").innerHTML = descr
+            }
+
+            // Photo
+            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
+            document.getElementById("lightgallery").innerHTML = ''  // clear content
+            var photos = e.features[0].properties.photos
+            if (photos && photos != 'null') {  // check if null is a string 'null'
+                photos = JSON.parse(photos)
+                document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
+                photos.forEach(function (ph) {
+                    // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                    link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                    thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                    document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                        '</a>'
+                })
+                lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
+            }
+
+
+            // Documents
+            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
+            document.getElementById("docs").innerHTML = '<ol></ol>'  // clear content
+            var docs = e.features[0].properties.docs
+            if (docs && docs != 'null') {
+                docs = JSON.parse(docs)
+                document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
+                docs.forEach(function (doc) {
+                    document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                        doc.title +
+                        '</a></li>'
+                })
+            }
+        });
 
         // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
         map.on('mouseenter', lr, function () {
@@ -263,9 +266,9 @@ map.on('load', function () {
     //         var clickedLayer = this.textContent;
     //         e.preventDefault();
     //         e.stopPropagation();
-             
+
     //         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-             
+
     //         if (visibility === 'visible') {
     //         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
     //         this.className = '';
@@ -274,20 +277,9 @@ map.on('load', function () {
     //         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
     //         }
     //         };
-             
+
     //         var layers = document.getElementById('menu');
     //         layers.appendChild(link);
     // });
 
 });
-
-
-
-// // Get coordinates of the mouse pointer - just uncomment
-// // Comment in production
-// map.on('mousemove', function (event) {
-//     // event.lngLat is the longitude, latitude geographical position of the event
-//     var lon = event.lngLat.lng.toFixed(3);
-//     var lat = event.lngLat.lat.toFixed(3);
-//     document.getElementById('coordinates').innerHTML = lon + "<br>" + lat;
-// });
