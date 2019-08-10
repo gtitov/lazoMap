@@ -101,9 +101,9 @@ map.on('load', function () {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "#346eeb",
+            "line-color": "#0099ff",
             "line-width": 3,
-            "line-opacity": 0.4
+            "line-opacity": 0.6
         },
         minzoom: 7
     }, 'settles');
@@ -119,8 +119,8 @@ map.on('load', function () {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "#346eeb",
-            "line-width": 5,
+            "line-color": "#0099ff",
+            "line-width": 4,
             "line-opacity": 1
         },
         // none can be selected by the filter, we'll set it later in 'Highlight rivers'
