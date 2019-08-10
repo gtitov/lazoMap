@@ -145,7 +145,7 @@ map.on('load', function () {
                 'дорога на Просёлочный', '#fbb03b',
                 'дорога на Звёздочку', '#223b53',
                 'дорога на Америку', '#e55e5e',
-                'дорога на Корпадь', '#3bb2d0',
+                'дорога на Корпадь', '#a832a2',
                 'дорога на Петров', '#ff9999',
                 /* others */ '#ccc'
             ],
@@ -191,7 +191,7 @@ map.on('load', function () {
         // Add a GeoJSON source containing place coordinates and information.
         source: 'mountains',
         layout: {
-            'icon-image': 'mountain-11',
+            'icon-image': 'mountain',
             'icon-allow-overlap': true,
         },
         minzoom: 7
@@ -204,7 +204,7 @@ map.on('load', function () {
         // Add a GeoJSON source containing place coordinates and information.
         source: 'kontora',
         layout: {
-            'icon-image': 'town-hall-15',
+            'icon-image': 'flat',
             'icon-allow-overlap': true,
         },
         minzoom: 7
@@ -217,7 +217,7 @@ map.on('load', function () {
         // Add a GeoJSON source containing place coordinates and information.
         source: 'kordon',
         layout: {
-            'icon-image': 'home',
+            'icon-image': 'house',
             'icon-allow-overlap': true,
         },
         minzoom: 7
