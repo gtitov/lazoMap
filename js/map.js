@@ -101,8 +101,8 @@ map.on('load', function () {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "#03dffc",
-            "line-width": 4,
+            "line-color": "#346eeb",
+            "line-width": 3,
             "line-opacity": 0.4
         },
         minzoom: 7
@@ -119,7 +119,7 @@ map.on('load', function () {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "#03dffc",
+            "line-color": "#346eeb",
             "line-width": 5,
             "line-opacity": 1
         },
@@ -217,7 +217,7 @@ map.on('load', function () {
         // Add a GeoJSON source containing place coordinates and information.
         source: 'kordon',
         layout: {
-            'icon-image': 'ranger-station-15',
+            'icon-image': 'home',
             'icon-allow-overlap': true,
         },
         minzoom: 7
