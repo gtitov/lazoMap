@@ -106,7 +106,7 @@ map.on('load', function () {
             "line-opacity": 0.4
         },
         minzoom: 7
-    }, 'settlement-label');
+    }, 'settles');
 
     // Реки, подсветка при выборе
     map.addLayer({
@@ -126,7 +126,7 @@ map.on('load', function () {
         // none can be selected by the filter, we'll set it later in 'Highlight rivers'
         filter: ["in", "id", ""],
         minzoom: 7
-    }, 'settlement-label');
+    }, 'settles');
 
     // Дороги
     map.addLayer({
@@ -153,7 +153,7 @@ map.on('load', function () {
             "line-opacity": 0.8
         },
         minzoom: 7
-    }, 'settlement-label');
+    }, 'settles');
 
     // Дороги, подсветка при выборе
     map.addLayer({
@@ -182,7 +182,7 @@ map.on('load', function () {
         // none can be selected by the filter, we'll set it later in 'Highlight rivers'
         filter: ["in", "id", ""],
         minzoom: 7
-    }, 'settlement-label');
+    }, 'settles');
 
     // Вершины
     map.addLayer({
@@ -208,7 +208,7 @@ map.on('load', function () {
             'icon-allow-overlap': true,
         },
         minzoom: 7
-    }, 'settlement-label');
+    }, 'settles');
 
     // Кордоны
     map.addLayer({
