@@ -1,3 +1,4 @@
+/* INITIALIZATION */
 // Initialize map
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2hlcm1hbnQiLCJhIjoiY2pncDUwcnRmNDQ4ZjJ4czdjZXMzaHZpNyJ9.3rFyYRRtvLUngHm027HZ7A';
 var map = new mapboxgl.Map({
@@ -8,13 +9,16 @@ var map = new mapboxgl.Map({
 });
 
 
+/* CONTROLS */
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
 
 
+/* CONSTRUCTOR */
 // Draw map
 map.on('load', function () {
+    /* SOURCES */
     // Файлы с данными
     // Add geodata as source
 
@@ -61,6 +65,7 @@ map.on('load', function () {
     })
 
 
+    /* LAYERS */
     // Слои
     // Add geodata to the map as a layer 
     // Одной точкой
@@ -224,7 +229,7 @@ map.on('load', function () {
     });
 
 
-
+    /* SHOW INFO */
     // Всплывающие окна
     // Функция вывода информации о слое
 
@@ -297,7 +302,8 @@ map.on('load', function () {
     });
 
 
-    // Подсветка выбранной реки
+    /* HIGHLIGHTS */
+    // Подсветка выбранного слоя
     var hlayers = ['rivers', 'roads']
     // Highlight rivers
     hlayers.forEach(function(hlr) {
@@ -319,34 +325,39 @@ map.on('load', function () {
     })
 
 
+    /* TOGGLE LAYERS */
+    // Управление слоями
+    // Toggle layers
+    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon']
+    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны']
+    for (var i = 0; i < toggleLayers.length; i++) {
+        var tlr = toggleLayers[i];
+        var tlrRu = toggleLayersRu[i];
 
-    // // Управление слоями
-    // // Toggle layers
-    // var toggleLayers = ['rivers']
-    // toggleLayers.forEach(function(lr) {
-    //     var link = document.createElement('a');
-    //     link.href = '#';
-    //     link.className = 'active';
-    //     link.textContent = lr;
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.textContent = tlrRu;
+        link.id = tlr;
 
-    //     link.onclick = function(e) {
-    //         var clickedLayer = this.textContent;
-    //         e.preventDefault();
-    //         e.stopPropagation();
+        link.onclick = function (e) {
+            var clickedLayer = this.id;
+            e.preventDefault();
+            e.stopPropagation();
 
-    //         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 
-    //         if (visibility === 'visible') {
-    //         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-    //         this.className = '';
-    //         } else {
-    //         this.className = 'active';
-    //         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-    //         }
-    //         };
+            if (visibility != 'none') {  // don't use '==="visible"' because first click returns undefined
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                this.className = '';
+            } else {
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+        };
 
-    //         var layers = document.getElementById('menu');
-    //         layers.appendChild(link);
-    // });
+        var layers = document.getElementById('menu');
+        layers.appendChild(link);
+    }
 
 });

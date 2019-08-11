@@ -32,3 +32,42 @@ p, a {
   flex: 5;
   height: 90vh
 }
+
+#menu {
+  background-color: rgba(255,255,255,0.6);
+  position: absolute;
+  top: 85px;
+  right: 15px;
+  width: 100px;
+  border: 1px solid rgba(0,0,0,0.4);
+  font-family: 'Roboto', sans-serif;
+}
+   
+#menu a {
+  font-size: 13px;
+  color: #bbbbbb;
+  display: block;
+  margin: 0;
+  padding: 5px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  text-align: center;
+}
+   
+#menu a:last-child {
+  border: none;
+}
+   
+#menu a:hover {
+  background-color: #f8f8f8;
+  color: #404040;
+}
+   
+#menu a.active {
+  background-color: rgba(255,255,255,0.8);
+  color: #000000;
+}
+   
+#menu a.active:hover {
+  background-color: rgba(255,255,255,1);
+}
