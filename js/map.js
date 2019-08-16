@@ -13,6 +13,18 @@ var map = new mapboxgl.Map({
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
+// Get coordinates of the mouse pointer - just uncomment
+map.on('mousemove', function (event) {
+    // event.lngLat is the longitude, latitude geographical position of the event
+    var precision = 5;  // decimal places
+    var lon = event.lngLat.lng.toFixed(precision);
+    var lat = event.lngLat.lat.toFixed(precision);
+    document.getElementById('coordinates').innerHTML = "долгота: " + lon + 
+                                                        "<br>" +
+                                                        "широта: " + lat;
+});
+
+
 
 
 /* CONSTRUCTOR */
@@ -63,6 +75,8 @@ map.on('load', function () {
         type: 'geojson',
         data: './data/roads.geojson',
     })
+
+
 
 
     /* LAYERS */
@@ -229,77 +243,86 @@ map.on('load', function () {
     });
 
 
-    /* SHOW INFO */
-    // Всплывающие окна
-    // Функция вывода информации о слое
 
-    // Слои
-    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads']
-    layers.forEach(function (lr) {
-        var clearContent = function(divName) {  // clear content using DOM
+
+    /* SHOW INFO */
+    // Функция вывода информации о слое
+    var showInfo = function (e) {
+        var clearContent = function (divName) {  // clear content using DOM
             var div = document.getElementById(divName);
-            while(div.firstChild){
+            while (div.firstChild) {  // delete until there is no first child
                 div.removeChild(div.firstChild);
             }
         }
-        // Информация о слое
-        map.on('click', lr, function (e) {
-            // Title
-            clearContent("infoTitle")
-            var name = e.features[0].properties.name
-            document.getElementById("infoTitle").innerHTML = name
+        // Title
+        clearContent("infoTitle")
+        var name = e.features[0].properties.name
+        document.getElementById("infoTitle").innerHTML = name
 
-            // Information
-            clearContent("info")  // clear content
-            var descr = e.features[0].properties.description
-            if (descr && descr != 'null') {  // check if null is a string 'null'
-                document.getElementById("info").innerHTML = descr
-            }
+        // Information
+        clearContent("info")  // clear content
+        var descr = e.features[0].properties.description
+        if (descr && descr != 'null') {  // check if null is a string 'null'
+            document.getElementById("info").innerHTML = descr
+        }
 
-            // Photo
-            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
-            clearContent("lightgallery")
-            var photos = e.features[0].properties.photos
-            if (photos && photos != 'null') {  // check if null is a string 'null'
-                photos = JSON.parse(photos)
-                document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
-                photos.forEach(function (ph) {
-                    // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
-                    link = './photos/' + ph.link  // photos are stored in './photos/' folder
-                    thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
-                    document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
-                        '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
-                        '</a>'
-                })
-                lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
-            }
+        // Photo
+        document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "none"
+        clearContent("lightgallery")
+        var photos = e.features[0].properties.photos
+        if (photos && photos != 'null') {  // check if null is a string 'null'
+            photos = JSON.parse(photos)
+            document.getElementById("gallery").getElementsByTagName("h3")[0].style.display = "block"
+            photos.forEach(function (ph) {
+                // УКАЗАТЬ КОРРЕКТНЫЕ ПАПКИ ПРИ НЕОБХОДИМОСТИ
+                link = './photos/' + ph.link  // photos are stored in './photos/' folder
+                thumb = './thumbs/' + ph.link  // thumbs are stored in './thumbs/' folder
+                document.getElementById("lightgallery").innerHTML += '<a href="' + link + '" data-sub-html="' + ph.title + '">' +
+                    '<img src="' + thumb + '" style="border: 2px solid rgba(0, 0, 0, 0)">' +
+                    '</a>'
+            })
+            lightGallery(document.getElementById("lightgallery"));  // initialize lightGallery
+        }
 
 
-            // Documents
-            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
-            clearContent("docs")
-            document.getElementById("docs").appendChild(document.createElement("ol"))  // create ol using DOM 
-            var docs = e.features[0].properties.docs
-            if (docs && docs != 'null') {
-                docs = JSON.parse(docs)
-                document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
-                docs.forEach(function (doc) {
-                    document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
-                        doc.title +
-                        '</a></li>'
-                })
-            }
-        });
+        // Documents
+        document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "none"
+        clearContent("docs")
+        document.getElementById("docs").appendChild(document.createElement("ol"))  // create ol using DOM 
+        var docs = e.features[0].properties.docs
+        if (docs && docs != 'null') {
+            docs = JSON.parse(docs)
+            document.getElementById("documentation").getElementsByTagName("h3")[0].style.display = "block"
+            docs.forEach(function (doc) {
+                document.getElementById("docs").getElementsByTagName("ol")[0].innerHTML += '<li><a href="' + doc.link + '" target="_blank">' +
+                    doc.title +
+                    '</a></li>'
+            })
+        }
+    }
 
-        // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
-        map.on('mouseenter', lr, function () {
+    // Change the cursor to a pointer when the mouse is over the places layer and change it back to a pointer when it leaves
+    var pointer = function(layer) {
+        map.on('mouseenter', layer, function() {
             map.getCanvas().style.cursor = 'pointer';
         });
 
-        map.on('mouseleave', lr, function () {
+        map.on('mouseleave', layer, function() {
             map.getCanvas().style.cursor = '';
         });
+    }
+
+    // Слои
+    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads']
+
+    layers.forEach(function(lr) {
+        // Информация о слое
+        map.on('click', lr, showInfo);
+        // Курсор в указатель
+        pointer(lr);
     });
+
+
 
 
     /* HIGHLIGHTS */
@@ -325,6 +348,8 @@ map.on('load', function () {
     })
 
 
+
+
     /* TOGGLE LAYERS */
     // Управление слоями
     // Toggle layers
@@ -334,30 +359,36 @@ map.on('load', function () {
         var tlr = toggleLayers[i];
         var tlrRu = toggleLayersRu[i];
 
-        var link = document.createElement('a');
-        link.href = '#';
-        link.className = 'active';
-        link.textContent = tlrRu;
-        link.id = tlr;
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = true;
+        var checklabel = document.createElement('span')
+        checklabel.textContent = " " + tlrRu;
 
-        link.onclick = function (e) {
+        var checkrow = document.createElement('label');
+        checkrow.id = tlr;
+        checkrow.appendChild(checkbox);
+        checkrow.appendChild(checklabel);
+        
+
+        checkrow.onclick = function (e) {
             var clickedLayer = this.id;
-            e.preventDefault();
+            e.preventDefault();  // default works with checkbox but not with checkrow
             e.stopPropagation();
 
             var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 
             if (visibility != 'none') {  // don't use '==="visible"' because first click returns undefined
                 map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-                this.className = '';
+                this.firstChild.checked = false;
             } else {
-                this.className = 'active';
                 map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                this.firstChild.checked = true;
             }
         };
 
         var layers = document.getElementById('menu');
-        layers.appendChild(link);
+        layers.appendChild(checkrow);
     }
 
 });
