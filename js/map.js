@@ -121,7 +121,7 @@ map.on('load', function () {
         },
         paint: {
             "line-color": "#0099ff",
-            "line-width": 3,
+            "line-width": 1.5,
             "line-opacity": 0.6
         },
         minzoom: 7
@@ -353,8 +353,8 @@ map.on('load', function () {
     /* TOGGLE LAYERS */
     // Управление слоями
     // Toggle layers
-    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon']
-    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны']
+    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon', 'kontora']
+    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны', 'офис']
     for (var i = 0; i < toggleLayers.length; i++) {
         var tlr = toggleLayers[i];
         var tlrRu = toggleLayersRu[i];
