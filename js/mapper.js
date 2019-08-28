@@ -370,19 +370,19 @@ map.on('load', function () {
         checkrow.appendChild(checkbox);
         checkrow.appendChild(checklabel);
         
-
+        // TODO: галочки не всегда отмечаются!
         checkrow.onclick = function (e) {
-            var clickedLayer = this.id;
-            e.preventDefault();  // default works with checkbox but not with checkrow
-            e.stopPropagation();
+            var clickedRow = this.id;
+            // e.preventDefault();  // default works with checkbox but not with checkrow
+            // e.stopPropagation();
 
-            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            var visibility = map.getLayoutProperty(clickedRow, 'visibility');
 
-            if (visibility != 'none') {  // don't use '==="visible"' because first click returns undefined
-                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            if (visibility != 'none' || visibility === 'visible') {  // don't use '==="visible"' because first click returns undefined
+                map.setLayoutProperty(clickedRow, 'visibility', 'none');
                 this.firstChild.checked = false;
             } else {
-                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                map.setLayoutProperty(clickedRow, 'visibility', 'visible');
                 this.firstChild.checked = true;
             }
         };
