@@ -121,7 +121,7 @@ map.on('load', function () {
         },
         paint: {
             "line-color": "#0099ff",
-            "line-width": 1.5,
+            "line-width": 1,
             "line-opacity": 0.6
         },
         minzoom: 7
