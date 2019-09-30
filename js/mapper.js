@@ -259,12 +259,14 @@ map.on('load', function () {
     /* SHOW INFO */
     // Функция вывода информации о слое
     var showInfo = function (e) {
+        // Clear content function
         var clearContent = function (divName) {  // clear content using DOM
             var div = document.getElementById(divName);
             while (div.firstChild) {  // delete until there is no first child
                 div.removeChild(div.firstChild);
             }
         }
+
         // Title
         clearContent("infoTitle")
         var name = e.features[0].properties.name
