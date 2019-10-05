@@ -2,10 +2,10 @@
 // Initialize map
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2hlcm1hbnQiLCJhIjoiY2pncDUwcnRmNDQ4ZjJ4czdjZXMzaHZpNyJ9.3rFyYRRtvLUngHm027HZ7A';
 var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/ghermant/cjydrh8o43d8r1dnjmomx9x7b',
-    center: [134.15, 43.34],
-    zoom: 8,
+    container: 'map',  // id html-элемента, куда должна быть помещена карта
+    style: 'mapbox://styles/ghermant/cjydrh8o43d8r1dnjmomx9x7b',  // идентификатор созданной базовой карты
+    center: [134.15, 43.34],  // центр карты при загрузке
+    zoom: 8,  // уровень увеличения при загрузке
 });
 
 // Initialize menu info
@@ -85,6 +85,12 @@ map.on('load', function () {
     map.addSource('roads', {
         type: 'geojson',
         data: './data/roads.geojson',
+    })
+
+    // Зимние маршруты учёта (ЗМУ)
+    map.addSource('zmu', {
+        type: 'geojson',
+        data: './data/zmu.geojson',
     })
 
 
@@ -234,7 +240,7 @@ map.on('load', function () {
         // Add a GeoJSON source containing place coordinates and information.
         source: 'kontora',
         layout: {
-            'icon-image': 'flat',
+            'icon-image': 'embassy-15',
             'icon-allow-overlap': true,
         },
         minzoom: 7
@@ -252,6 +258,44 @@ map.on('load', function () {
         },
         minzoom: 7
     });
+
+    // ЗМУ
+    map.addLayer({
+        id: 'zmu',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'zmu',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#006400",
+            "line-width": 2,
+            "line-opacity": 0.6
+        },
+        minzoom: 7
+    }, 'settles');
+
+    // ЗМУ, подсветка при выборе
+    map.addLayer({
+        id: 'zmu-highlighted',
+        type: 'line',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'zmu',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#006400",
+            "line-width": 4,
+            "line-opacity": 1
+        },
+        // none can be selected by the filter, we'll set it later in 'Highlight rivers'
+        filter: ["in", "id", ""],
+        minzoom: 7
+    }, 'settles');
 
 
 
@@ -326,7 +370,7 @@ map.on('load', function () {
     }
 
     // Слои
-    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads']
+    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads', 'zmu']
 
     layers.forEach(function(lr) {
         // Информация о слое
@@ -340,23 +384,23 @@ map.on('load', function () {
 
     /* HIGHLIGHTS */
     // Подсветка выбранного слоя
-    var hlayers = ['rivers', 'roads']
+    var hlayers = ['rivers', 'roads', 'zmu']
     // Highlight rivers
     hlayers.forEach(function(hlr) {
         map.on('click', function (e) {  // if layer's chosen highlight won't disappear when click ex
-        // set bbox as 1px reactangle area around clicked point
-        var bbox = [[e.point.x - 1, e.point.y - 1], [e.point.x + 1, e.point.y + 1]];
-        // select features from layer hlr inside bbox
-        var features = map.queryRenderedFeatures(bbox, { layers: [hlr] });
-        // Run through the selected features and set a filter
-        // to match features with unique id to activate
-        // the hlr`-highlighted` layer.
-        var filter = features.reduce(function (acc, feature) {
-            acc.push(feature.properties.id);
-            return acc;
-        }, ['in', 'id']);  // initial data (for first iteration): acc on iter=1
+            // set bbox as 1px reactangle area around clicked point
+            var bbox = [[e.point.x - 1, e.point.y - 1], [e.point.x + 1, e.point.y + 1]];
+            // select features from layer hlr inside bbox
+            var features = map.queryRenderedFeatures(bbox, { layers: [hlr] });
+            // Run through the selected features and set a filter
+            // to match features with unique id to activate
+            // the hlr`-highlighted` layer.
+            var filter = features.reduce(function (acc, feature) {
+                acc.push(feature.properties.id);
+                return acc;
+            }, ['in', 'id']);  // initial data (for first iteration): acc on iter=1
 
-        map.setFilter(hlr.concat('-highlighted'), filter);
+            map.setFilter(hlr.concat('-highlighted'), filter);
         });
     })
 
@@ -366,8 +410,8 @@ map.on('load', function () {
     /* TOGGLE LAYERS */
     // Управление слоями
     // Toggle layers
-    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon', 'kontora']
-    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны', 'офис']
+    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon', 'kontora', 'zmu']
+    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны', 'офис', 'зимние маршруты учёта']
     for (var i = 0; i < toggleLayers.length; i++) {
         var tlr = toggleLayers[i];
         var tlrRu = toggleLayersRu[i];
