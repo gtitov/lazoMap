@@ -106,7 +106,8 @@
             "type": "Feature",
             "properties": {
                 "id": "2",
-                "name": "Просёлочная - Соколовка"
+                "name": "Просёлочная - Соколовка",
+                "description": "Описание маршрута: <ul><li><a href='https://shur-aa.github.io/LazoZMU/html/Proselochny.html' target='_blank'>Падь Просёлочная</a></li><li><a href='https://shur-aa.github.io/LazoZMU/html/Sokolovka.html' target='_blank'>Соколовка</a></li></ul>"
             },
             "geometry": {
                 "type": "MultiLineString",
@@ -356,7 +357,8 @@
             "type": "Feature",
             "properties": {
                 "id": "3",
-                "name": "Угловая - Формозов ручей"
+                "name": "Угловая - Формозов ручей",
+                "description": "Описание маршрута: <ul><li><a href='https://shur-aa.github.io/LazoZMU/html/Rightuglovoy.html' target='_blank'>Правый Угловой ручей</a></li><li><a href='https://shur-aa.github.io/LazoZMU/html/Leftuglovoy.html' target='_blank'>Левый Угловой ручей</a></li><li><a href='https://shur-aa.github.io/LazoZMU/html/Formozov.html' target='_blank'>Формозов ручей</a></li></ul>"
             },
             "geometry": {
                 "type": "MultiLineString",
