@@ -1,0 +1,293 @@
+{
+    "type": "FeatureCollection",
+    "name": "photopoints",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 3.0,
+                "name": "Виды у кордона Просёлочного",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Кордон Просёлочный и море",
+                        "link": "DJI_0487.JPG"
+                    },
+                    {
+                        "title": "Скалистые берега",
+                        "link": "DJI_0500.JPG"
+                    },
+                    {
+                        "title": "Скалистые берега",
+                        "link": "DJI_0504.JPG"
+                    },
+                    {
+                        "title": "Скалистые берега",
+                        "link": "DJI_0518.JPG"
+                    },
+                    {
+                        "title": "Скалистые берега",
+                        "link": "DJI_0564.JPG"
+                    },
+                    {
+                        "title": "Скалистые берега",
+                        "link": "DJI_0572.JPG"
+                    },
+                    {
+                        "title": "Дзот",
+                        "link": "IMG_7576.JPG"
+                    },
+                    {
+                        "title": "Падь Просёлочная у кордона Просёлочного",
+                        "link": "IMG_7533.JPG"
+                    },
+                    {
+                        "title": "След тигрёнка у кордона",
+                        "link": "След тигра.JPG"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        134.16489,
+                        43.03698
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 4.0,
+                "name": "Падь Просёлочная",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Падь Просёлочная в низовье",
+                        "link": "падь проселочная низовье межень.JPG"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        134.10168,
+                        43.01506
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 1.0,
+                "name": "Остров Опасный",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Вид на остров Опасный с мыса Кит",
+                        "link": "опасный.JPG"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        134.18583,
+                        43.03174
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 2.0,
+                "name": "Остров Петрова",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Вид на остров Петрова",
+                        "link": "петров.JPG"
+                    },
+                    {
+                        "title": "Вид на остров Петрова с острова Бельцова",
+                        "link": "петров с бельцова.JPG"
+                    },
+                    {
+                        "title": "Остров Петрова с квадрокоптера",
+                        "link": "DJI_0924.JPG"
+                    },
+                    {
+                        "title": "Трёхмерное представление острова Петрова",
+                        "link": "Petrov3D.PNG"
+                    },
+                    {
+                        "title": "Туристская карта острова Петрова",
+                        "link": "Petrov11.jpg"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.80692,
+                        42.86341
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 2.0,
+                "name": "Кэмпинг для отдыхающих",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Кэмпинг с квадрокоптера",
+                        "link": "DJI_0884.JPG"
+                    },
+                    {
+                        "title": "Кэмпинг с квадрокоптера",
+                        "link": "DJI_0893.JPG"
+                    },
+                    {
+                        "title": "Кэмпинг с квадрокоптера",
+                        "link": "DJI_0901.JPG"
+                    },
+                    {
+                        "title": "Кэмпинг с квадрокоптера",
+                        "link": "DJI_0916.JPG"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.80570,
+                        42.87152
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 2.0,
+                "name": "Остров Бельцова",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Вид с острова Бельцова",
+                        "link": "IMG_6146.JPG"
+                    },
+                    {
+                        "title": "Вид с острова Бельцова",
+                        "link": "IMG_6162.JPG"
+                    },
+                    {
+                        "title": "На острове Бельцова",
+                        "link": "IMG_6876.JPG"
+                    },
+                    {
+                        "title": "Остров Бельцова с мыса",
+                        "link": "бельцов.JPG"
+                    },
+                    {
+                        "title": "На острове Бельцова",
+                        "link": "IMG_7416.JPG"
+                    }
+                    
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.80570,
+                        42.87152
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 2.0,
+                "name": "Бухта Опасная",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Бухта Опасная",
+                        "link": "IMG_6190.JPG"
+                    },
+                    {
+                        "title": "Бухта Опасная",
+                        "link": "бухта Опасная.JPG"
+                    },
+                    {
+                        "title": "Научная работа в бухте Опасная",
+                        "link": "работы в бухте Опасная.JPG"
+                    }  
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.78155,
+                        42.86373
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "qc_id": 2.0,
+                "name": "Лазо",
+                "description": "",
+                "photos": [
+                    {
+                        "title": "Вид на Лазо с вершины Поп",
+                        "link": "панорама Лазо.JPG"
+                    },
+                    {
+                        "title": "Река Лазовка",
+                        "link": "Лазовка.JPG"
+                    }
+                ],
+                "docs": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        133.90819,
+                        42.38600
+                    ]
+                ]
+            }
+        }
+    ]
+}

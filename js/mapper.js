@@ -93,6 +93,12 @@ map.on('load', function () {
         data: './data/zmu.geojson',
     })
 
+    // Фототочки
+    map.addSource('photopoints', {
+        type: 'geojson',
+        data: './data/photopoints.geojson',
+    })
+
 
 
 
@@ -297,6 +303,19 @@ map.on('load', function () {
         minzoom: 7
     }, 'settles');
 
+    // Фототочки
+    map.addLayer({
+        id: 'photopoints',
+        type: 'symbol',
+        // Add a GeoJSON source containing place coordinates and information.
+        source: 'photopoints',
+        layout: {
+            'icon-image': 'attraction-11',
+            'icon-allow-overlap': true,
+        },
+        minzoom: 7
+    });
+
 
 
 
@@ -370,7 +389,7 @@ map.on('load', function () {
     }
 
     // Слои
-    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads', 'zmu']
+    var layers = ['one', 'two', 'kordon', 'kontora', 'mountains', 'rivers', 'roads', 'zmu', 'photopoints']
 
     layers.forEach(function(lr) {
         // Информация о слое
@@ -410,8 +429,8 @@ map.on('load', function () {
     /* TOGGLE LAYERS */
     // Управление слоями
     // Toggle layers
-    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon', 'kontora', 'zmu']
-    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны', 'офис', 'зимние маршруты учёта']
+    var toggleLayers = ['rivers', 'roads', 'mountains', 'kordon', 'kontora', 'zmu', 'photopoints']
+    var toggleLayersRu = ['водотоки', 'пути к кордонам', 'вершины', 'кордоны', 'офис', 'зимние маршруты учёта', 'фотографии']
     for (var i = 0; i < toggleLayers.length; i++) {
         var tlr = toggleLayers[i];
         var tlrRu = toggleLayersRu[i];
