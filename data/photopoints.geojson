@@ -133,11 +133,11 @@
                     },
                     {
                         "title": "Трёхмерное представление острова Петрова",
-                        "link": "Petrov3D.PNG"
+                        "link": "Petrov3D.JPG"
                     },
                     {
                         "title": "Туристская карта острова Петрова",
-                        "link": "Petrov11.jpg"
+                        "link": "Petrov11.JPG"
                     }
                 ],
                 "docs": null
@@ -283,8 +283,8 @@
                 "type": "MultiPoint",
                 "coordinates": [
                     [
-                        133.90819,
-                        42.38600
+                        133.91480,
+                        43.38600
                     ]
                 ]
             }
